@@ -4,33 +4,45 @@ import matplotlib.pyplot as plt
 import matplotlib.dates
 import datetime
 import numpy as np
+import tkinter as tk
 
-con = sqlite3.connect('MyApp.db')
-cursor = con.cursor()
+import pft_gui as gui
+import pft_sql as sql
 
 
 
-cursor.execute("SELECT id, exercise_name FROM 'main'.'exercises'")
-ex = cursor.fetchall()
-for el in ex:
-    print(el[0], el[1])
-ex_choice = input("Select an exercise (1-"+str(len(ex))+")")
+class MainApplication(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        tk.Frame.__init__(self, parent, *args, **kwargs)
+        self.parent = parent
+        
+        exercises = sql.get_exercises()
+        self.ex_nav = gui.Exercise_Nav(self)
+        self.ex_nav.populate_list(exercises)
+        self.rowconfigure(0,weight=1)
+        self.columnconfigure(0,weight=1)
+        self.ex_nav.grid(row=0,column=0,sticky='NS')
+        
+        self.rep_type = gui.Report_Type(self)
+        self.rep_type.grid(row=0,column=1)
+        
+        self.cal = gui.Date_Chooser(self)
+        self.cal.grid(row=0,column=0,sticky='W')
 
-cursor.execute("SELECT date, history_exercises.exercise_id, weightlb FROM history_exercises INNER JOIN history ON history_id = history.id AND exercise_id ="+str(ex_choice)+" AND max_reps < 5 AND reptype = 1")
-top_sets = cursor.fetchall()
+        
+        
+        
+        
 
-x = []
-y = []
-for el in top_sets:
-    x.append(datetime.datetime.fromtimestamp(el[0]/1000))
-    y.append(el[2])
-    print(datetime.date.fromtimestamp(el[0]/1000),el[2])
-plt.style.use("seaborn-darkgrid")
-plt.plot_date(x, y,linestyle = "solid")
-plt.xlabel("Date")
-plt.ylabel("Weight (lbs)")
-plt.title(ex[el[1]-1][1])
-plt.show()
-#print(cursor.fetchall())
+def main():
+    pass
     
-input("Press Enter to Exit")
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("PFT Report")
+    MainApplication(root).grid(row=0,column=0)
+    #MainApplication(root).pack(side='top', fill='both',expand=True)
+    root.mainloop()
+
