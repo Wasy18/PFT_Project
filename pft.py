@@ -17,33 +17,33 @@ class MainApplication(tk.Frame):
         self.parent = parent
         
         
+        self.rowconfigure(0,weight=1)
+        self.columnconfigure(0,weight=1)
+        
         #exercise list
         exercises = sql.get_exercises()
         self.ex_nav = gui.Exercise_Nav(self)
         self.ex_nav.populate_list(exercises)
-        self.rowconfigure(0,weight=1)
-        self.columnconfigure(0,weight=1)
         self.ex_nav.grid(row=0,column=0,sticky='NSEW')
         
+
+        #frame to hold elements beside exercise list
+        self.sideframe = tk.Frame(self, highlightbackground="black", highlightthickness=2)
+        self.sideframe.rowconfigure(0,weight=1)
+        self.sideframe.columnconfigure(0,weight=1)
+        self.sideframe.grid(row=0,column=1,sticky='NESW')
         
         #report type
-        self.rep_type = gui.Report_Type(self)
-        self.rep_type.grid(row=1,column=1)
+        rep_type = gui.Report_Type(self.sideframe)
+        rep_type.grid(row=0,column=0,sticky = 'NEW')
         
+        #date chooser
+        date_type = gui.Date_Type(self.sideframe)
+        date_type.grid(row =1,column = 0,sticky='NEW')
         
-        
-        
-        #calendar
-        self.cal_start = gui.Date_Chooser(self)
-        self.cal_start.grid(row=0,column=0,sticky='W')
-        self.cal_start.frame.grid(row=3,column = 0)
-        self.cal_start.date_label.config(text="Start Date")
-
-        self.cal_end = gui.Date_Chooser(self)
-        self.cal_end.grid(row=0,column=1,sticky='NEW')
-        self.cal_end.frame.grid(row=3,column = 1)
-        self.cal_end.date_label.config(text="End Date")
-        
+        #generate button
+        generate_button = tk.Button(self.sideframe,text = 'Generate Report')
+        generate_button.grid(row = 2, column = 0, sticky = 'EW')
 
 def main():
     pass
