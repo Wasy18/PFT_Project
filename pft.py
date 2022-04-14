@@ -1,6 +1,8 @@
 import datetime
 import time
 import tkinter as tk
+from tkinter import ttk
+from ttkthemes import ThemedStyle
 import pft_gui as gui
 import pft_sql as sql
 
@@ -74,5 +76,7 @@ def main():
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("PFT Report")
+    style = ThemedStyle(root)
+    style.set_theme('equilux')
     MainApplication(root).grid(row=0, column=0)
     root.mainloop()
