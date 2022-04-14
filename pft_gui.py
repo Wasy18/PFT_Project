@@ -31,6 +31,9 @@ class Exercise_Nav(tk.Frame):
         for el in items:
             self.ex_box.insert(el[0], el[1])
 
+    def get_selection(self):
+        return self.ex_box.curselection()
+
 
 class Report_Type(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -49,7 +52,9 @@ class Report_Type(tk.Frame):
         self.weight = tk.Radiobutton(self, text="Bodyweight Report", variable=self.v, value=2)
         self.one_plus.grid(row=1, column=0, sticky='NW')
         self.weight.grid(row=2, column=0, sticky='NW')
-        # self.grid(row=0,column=0,sticky='NEW')
+
+    def get_report_type(self):
+        return self.v.get()
 
 
 class Date_Type(tk.Frame):
@@ -84,10 +89,8 @@ class Date_Type(tk.Frame):
 
         # methods for date choice
 
-    def pick_start(self):
-        # TODO
-        pass
+    def get_date_choice(self):
+        return self.v.get()
 
-    def pick_end(self):
-        # TODO
-        pass
+    def get_date_range(self):
+        return self.date_start.get_date(),self.date_end.get_date()
