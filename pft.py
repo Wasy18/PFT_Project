@@ -7,9 +7,9 @@ import pft_gui as gui
 import pft_sql as sql
 
 
-class MainApplication(tk.Frame):
+class MainApplication(ttk.Frame):
     def __init__(self, parent, *args, **kwargs):
-        tk.Frame.__init__(self, parent, *args, **kwargs)
+        ttk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
         self.rowconfigure(0, weight=1)
@@ -22,7 +22,7 @@ class MainApplication(tk.Frame):
         self.ex_nav.grid(row=0, column=0, sticky='NSEW')
 
         # frame to hold elements beside exercise list
-        self.sideframe = tk.Frame(self, highlightbackground="black", highlightthickness=2)
+        self.sideframe = ttk.Frame(self)
         self.sideframe.rowconfigure(0, weight=1)
         self.sideframe.columnconfigure(0, weight=1)
         self.sideframe.grid(row=0, column=1, sticky='NESW')
@@ -36,14 +36,14 @@ class MainApplication(tk.Frame):
         self.date_type.grid(row=1, column=0, sticky='NEW')
 
         # generate button
-        generate_button = tk.Button(self.sideframe, text='Generate Report', command=self.generate_report)
+        generate_button = ttk.Button(self.sideframe, text='Generate Report', command=self.generate_report)
         generate_button.grid(row=2, column=0, sticky='EW')
 
     def generate_report(self):
         # form input validation
         exercise_choice = self.ex_nav.get_selection()
         if exercise_choice:
-            print(self.exercises[exercise_choice[0]])
+            print(exercise_choice)
         else:
             tk.messagebox.showwarning(title="Report Button Test", message="Invalid Exercise Selection")
 
