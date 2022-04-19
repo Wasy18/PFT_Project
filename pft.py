@@ -3,6 +3,8 @@ import time
 import tkinter as tk
 from tkinter import ttk
 from ttkthemes import ThemedStyle
+from tkinter.font import Font
+from ttkthemes import ThemedTk
 import pft_gui as gui
 import pft_sql as sql
 
@@ -68,15 +70,19 @@ class MainApplication(ttk.Frame):
         else:
             tk.messagebox.showwarning(title="Report Button Test", message="Invalid Date Selection")
 
+        sql.pft_sql(exercise_choice)
+
 
 def main():
-    pass
+
+    root = ThemedTk(theme='breeze')
+    root.option_add('*Font',' Arial 10')
+    root.title("PFT Report")
+    style = ThemedStyle(root)
+    MainApplication(root).grid(row=0, column=0)
+    root.mainloop()
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("PFT Report")
-    style = ThemedStyle(root)
-    style.set_theme('equilux')
-    MainApplication(root).grid(row=0, column=0)
-    root.mainloop()
+    main()
+

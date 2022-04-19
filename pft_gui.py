@@ -13,7 +13,7 @@ class Exercise_Nav(ttk.Frame):
         self.columnconfigure(0, weight=1)
 
         # set up elements
-        label_title = ttk.Label(self, text="Exercises", relief='ridge')
+        label_title = ttk.Label(self, text="Exercises", relief='flat')
         self.scrollbar = ttk.Scrollbar(self, orient='vertical')
         self.ex_box = ttk.Treeview(self, height=15, yscrollcommand=self.scrollbar.set, show='tree')
         self.scrollbar.config(command=self.ex_box.yview)
@@ -21,7 +21,7 @@ class Exercise_Nav(ttk.Frame):
         # place in grid
         self.scrollbar.grid(row=1, column=1, sticky='NS')
         self.ex_box.grid(row=1, column=0, sticky='NS')
-        label_title.grid(row=0, column=0, sticky='NEWS')
+        label_title.grid(row=0, column=0)
 
     def populate_list(self, items):
         for i, el in enumerate(items):
@@ -40,7 +40,7 @@ class Report_Type(ttk.Frame):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        rep_label = ttk.Label(self, text="Report Type", borderwidth=2, relief='ridge')
+        rep_label = ttk.Label(self, text="Report Type", borderwidth=2, relief='flat')
         rep_label.grid(row=0, column=0, sticky='NEW')
 
         # Radio Buttons for report type
@@ -62,7 +62,7 @@ class Date_Type(ttk.Frame):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        rep_label = ttk.Label(self, text="Date Range", borderwidth=2, relief='ridge')
+        rep_label = ttk.Label(self, text="Date Range", borderwidth=2, relief='flat')
         rep_label.grid(row=0, column=0, sticky='NEW', columnspan=4)
 
         # Radio Buttons for report type
