@@ -33,9 +33,9 @@ class MainApplication(ttk.Frame):
         self.columnconfigure(3,weight=0)
 
         # exercise list
-        self.exercises = sql.get_exercises()
+        #self.exercises = sql.get_exercises()
         self.ex_nav = gui.Exercise_Nav(self)
-        self.ex_nav.populate_list(self.exercises)
+        #self.ex_nav.populate_list(self.exercises)
         self.ex_nav.grid(row=1, column=0, sticky='NEWS')
 
         # frame to hold elements beside exercise list
@@ -98,16 +98,16 @@ def main():
     root.resizable(width=False, height=False)
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=0)
+
+
     style = ThemedStyle(root)
+
+
     menu_bar = gui.Top_Menu(root)
     root.configure(menu=menu_bar)
+
     MainApplication(root).grid(row=0, column=0, sticky="NEWS", padx=2, pady=2)
     root.mainloop()
-
-def entry():
-    splash = ThemedTk(theme='breeze')
-    splash.option_add('*Font','Arial 10')
-
 
 if __name__ == "__main__":
     main()

@@ -6,8 +6,13 @@ import matplotlib.pyplot as plt
 
 matplotlib.use("TkAgg")
 
-con = sqlite3.connect('MyApp.db')
-cursor = con.cursor()
+# con = sqlite3.connect('MyApp.db')
+# cursor = con.cursor()
+
+
+def connect_to_database(db):
+    con = sqlite3.connect(db)
+    cursor = con.cursor()
 
 
 def get_exercises():

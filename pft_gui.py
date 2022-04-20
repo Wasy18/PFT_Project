@@ -97,12 +97,12 @@ class Date_Type(ttk.Frame):
         choice = self.get_date_choice()
 
         if choice == 1:
-            self.date_start.set_date(datetime.datetime.utcnow() - datetime.timedelta(days=30))
-            self.date_end.set_date((datetime.datetime.utcnow()))
+            self.date_start.set_date(datetime.datetime.now() - datetime.timedelta(days=30))
+            self.date_end.set_date((datetime.datetime.now()))
 
         if choice == 2:
-            self.date_start.set_date(datetime.datetime.utcnow() - datetime.timedelta(days=60))
-            self.date_end.set_date((datetime.datetime.utcnow()))
+            self.date_start.set_date(datetime.datetime.now() - datetime.timedelta(days=60))
+            self.date_end.set_date((datetime.datetime.now()))
 
         if choice ==3:
             dates = self.get_date_range()
@@ -135,6 +135,7 @@ class Top_Menu(tk.Menu):
         self.database = fd.askopenfilename(filetypes=filetypes)
         print("OPEN DATABASE BUTTON")
         print(self.database)
+
 
     def about(self):
         print("ABOUT BUTTON")
