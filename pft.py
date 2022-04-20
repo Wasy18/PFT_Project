@@ -14,32 +14,49 @@ class MainApplication(ttk.Frame):
         ttk.Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
 
+        # self.menu_frame = ttk.Frame(self,height=30)
+        # self.menu_frame.grid(row=0,column=0,columnspan=2)
+        #self.menu_bar = gui.Top_Menu(self)
+        #self.menu_bar.grid(row=0, column=0, columnspan=2,sticky='NW')
+
+
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
+
+        self.rowconfigure(1, weight=1)
+        self.columnconfigure(1, weight=1)
+
+        self.rowconfigure(2, weight=1)
+        self.columnconfigure(2, weight=1)
+
+        self.rowconfigure(3, weight=1)
+        self.columnconfigure(3,weight=0)
 
         # exercise list
         self.exercises = sql.get_exercises()
         self.ex_nav = gui.Exercise_Nav(self)
         self.ex_nav.populate_list(self.exercises)
-        self.ex_nav.grid(row=0, column=0, sticky='NSEW')
+        self.ex_nav.grid(row=1, column=0, sticky='NEWS')
 
         # frame to hold elements beside exercise list
         self.sideframe = ttk.Frame(self)
         self.sideframe.rowconfigure(0, weight=1)
         self.sideframe.columnconfigure(0, weight=1)
-        self.sideframe.grid(row=0, column=1, sticky='NESW')
+        self.sideframe.rowconfigure(1, weight=1)
+        self.sideframe.columnconfigure(1, weight=0)
+        self.sideframe.grid(row=1, column=1, sticky='NEWS')
 
         # report type
         self.rep_type = gui.Report_Type(self.sideframe)
-        self.rep_type.grid(row=0, column=0, sticky='NEW')
+        self.rep_type.grid(row=0, column=0, sticky='NEWS')
 
         # date chooser
         self.date_type = gui.Date_Type(self.sideframe)
-        self.date_type.grid(row=1, column=0, sticky='NEW')
+        self.date_type.grid(row=1, column=0, sticky='NEWS')
 
         # generate button
         generate_button = ttk.Button(self.sideframe, text='Generate Report', command=self.generate_report)
-        generate_button.grid(row=2, column=0, sticky='EW')
+        generate_button.grid(row=3, column=0, sticky='EW')
 
     def generate_report(self):
         # form input validation
@@ -78,9 +95,18 @@ def main():
     root = ThemedTk(theme='breeze')
     root.option_add('*Font',' Arial 10')
     root.title("PFT Report")
+    root.resizable(width=False, height=False)
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=0)
     style = ThemedStyle(root)
-    MainApplication(root).grid(row=0, column=0)
+    menu_bar = gui.Top_Menu(root)
+    root.configure(menu=menu_bar)
+    MainApplication(root).grid(row=0, column=0, sticky="NEWS", padx=2, pady=2)
     root.mainloop()
+
+def entry():
+    splash = ThemedTk(theme='breeze')
+    splash.option_add('*Font','Arial 10')
 
 
 if __name__ == "__main__":
