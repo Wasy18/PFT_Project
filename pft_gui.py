@@ -4,6 +4,23 @@ from tkinter import ttk
 from tkcalendar import DateEntry
 from tkinter import filedialog as fd
 
+
+class Intro_Screen(ttk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        ttk.Frame.__init__(self, parent, *args, **kwargs)
+        self.parent = parent
+
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
+        label_info = ttk.Label(
+            self,
+            text="Open your Personal Fitness Trainer\nbackup file ('MyApp.db')",
+            padding=2,
+            justify="center"
+        )
+        label_info.grid(row=0, column=0)
+
+
 class Exercise_Nav(ttk.Frame):
 
     def __init__(self, parent, *args, **kwargs):
@@ -49,11 +66,11 @@ class Report_Type(ttk.Frame):
 
         # Radio Buttons for report type
         self.v = tk.IntVar()
-        self.one_plus = ttk.Radiobutton(self, text="1+ Set Report", variable=self.v, value=1)
-        self.weight = ttk.Radiobutton(self, text="Bodyweight Report", variable=self.v, value=2)
+        self.weight = ttk.Radiobutton(self, text="Bodyweight Report", variable=self.v, value=1)
+        self.one_plus = ttk.Radiobutton(self, text="1+ Set Report", variable=self.v, value=2)
         self.whole = ttk.Radiobutton(self, text="Whole Set", variable=self.v, value=3)
-        self.one_plus.grid(row=1, column=0, sticky='NEW')
-        self.weight.grid(row=2, column=0, sticky='NEW')
+        self.weight.grid(row=1, column=0, sticky='NEW')
+        self.one_plus.grid(row=2, column=0, sticky='NEW')
         self.whole.grid(row=3, column=0, sticky='NEW')
 
     def get_report_type(self):
@@ -92,6 +109,7 @@ class Date_Type(ttk.Frame):
         self.date_end.grid(row=4, column=2)
 
         # methods for date choice
+
     def update_selection(self):
         print("UPDATING DATES")
         choice = self.get_date_choice()
@@ -104,10 +122,11 @@ class Date_Type(ttk.Frame):
             self.date_start.set_date(datetime.datetime.utcnow() - datetime.timedelta(days=60))
             self.date_end.set_date((datetime.datetime.utcnow()))
 
-        if choice ==3:
+        if choice == 3:
             dates = self.get_date_range()
             self.date_start.set_date(dates[0])
             self.date_end.set_date((dates[1]))
+
     def get_date_choice(self):
         return self.v.get()
 
@@ -118,6 +137,8 @@ class Date_Type(ttk.Frame):
 class Top_Menu(tk.Menu):
     def __init__(self, parent):
         tk.Menu.__init__(self, parent)
+
+        self.parent = parent
         self.configure(tearoff=False)
         self.database = None
 
@@ -131,10 +152,11 @@ class Top_Menu(tk.Menu):
         self.add_cascade(label="Help", menu=help_menu)
 
     def open_database(self):
-        filetypes=[("Database Files", "*.db")]
+        filetypes = [("Database Files", "*.db")]
         self.database = fd.askopenfilename(filetypes=filetypes)
         print("OPEN DATABASE BUTTON")
         print(self.database)
+        self.parent.change_var(self.database)
 
     def about(self):
         print("ABOUT BUTTON")
