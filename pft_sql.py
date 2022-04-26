@@ -34,7 +34,9 @@ class PFT_Database:
 
     def bodyweight_report(self, ex_type, date_start, date_end):
         print("BODYWEIGHT")
-        self.cursor.execute("SELECT date, weight FROM 'main'.'body_weight' WHERE date BETWEEN " + str(int(date_start)) + " AND " + str(int(date_end)) + " ORDER BY date ASC")
+        self.cursor.execute(
+            "SELECT date, weight FROM 'main'.'body_weight' WHERE date BETWEEN " + str(int(date_start)) + " AND " + str(
+                int(date_end)) + " ORDER BY date ASC")
         bw = self.cursor.fetchall()
 
         try:
@@ -46,10 +48,10 @@ class PFT_Database:
         x = []
         y = []
         for el in bw:
-            x.append(datetime.datetime.fromtimestamp(el[0]/1000))
+            x.append(datetime.datetime.fromtimestamp(el[0] / 1000))
             y.append(el[1])
 
-        plt.ylim(0, max_x[1] + (1/5) * max_x[1])
+        plt.ylim(0, max_x[1] + (1 / 5) * max_x[1])
         plt.plot(x, y, marker='.')
         plt.xlabel("Date")
         plt.ylabel("Bodyweight")
@@ -85,7 +87,7 @@ class PFT_Database:
         y = []
         for el in top_sets:
             x.append(datetime.datetime.fromtimestamp(el[0] / 1000))
-            print(datetime.datetime.fromtimestamp(el[0]/1000))
+            print(datetime.datetime.fromtimestamp(el[0] / 1000))
             y.append(el[2])
             x_line = datetime.datetime.fromtimestamp(el[0] / 1000)
 
