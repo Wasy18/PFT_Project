@@ -1,5 +1,6 @@
 import datetime
 import tkinter as tk
+import tkinter.messagebox
 from tkinter import ttk
 from tkcalendar import DateEntry
 from tkinter import filedialog as fd
@@ -69,9 +70,11 @@ class Report_Type(ttk.Frame):
         self.weight = ttk.Radiobutton(self, text="Bodyweight Report", variable=self.v, value=1)
         self.one_plus = ttk.Radiobutton(self, text="1+ Set Report", variable=self.v, value=2)
         self.whole = ttk.Radiobutton(self, text="Whole Set", variable=self.v, value=3)
+        self.top_set = ttk.Radiobutton(self, text="Top Set", variable=self.v, value=4)
         self.weight.grid(row=1, column=0, sticky='NEW')
         self.one_plus.grid(row=2, column=0, sticky='NEW')
         self.whole.grid(row=3, column=0, sticky='NEW')
+        self.top_set.grid(row=4, column=0, sticky='NEW')
 
     def get_report_type(self):
         return self.v.get()
@@ -158,7 +161,8 @@ class Top_Menu(tk.Menu):
         print(self.database)
         self.parent.change_var(self.database)
 
-
     def about(self):
         print("ABOUT BUTTON")
-
+        tkinter.messagebox.showinfo("About",
+                                    "I made this solely for fun and most report types\n are tailored for my program. So"
+                                    " let me know if you\n find any bugs or have suggestions to improve it")

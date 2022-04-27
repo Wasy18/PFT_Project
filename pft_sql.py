@@ -35,6 +35,9 @@ class PFT_Database:
         if report == 3:
             self.whole_set(ex_type, date_start, date_end)
 
+        if report == 4:
+            self.top_set(ex_type, date_start, date_end)
+
     def bodyweight_report(self, date_start, date_end):
         print("BODYWEIGHT")
         self.cursor.execute(
@@ -90,11 +93,50 @@ class PFT_Database:
         plt.ylabel("Weight")
         print(ex_type)
         print(type(self.ex))
-        plt.title(self.ex[int(ex_type)-1][1] + " 1+ Report")
+        plt.title(self.ex[int(ex_type)-1][1] + " 1+ Set Report")
         plt.show()
 
+    def top_set(self, ex_type, date_start, date_end):
+
+        print("TOP_SET")
+        self.cursor.execute(
+            "SELECT date, history_exercises.exercise_id, weightlb FROM history_exercises INNER JOIN history ON "
+            "history_id = history.id AND exercise_id =" + str(ex_type) + " WHERE date BETWEEN " +
+            str(int(date_start)) + " AND " + str(int(date_end)) + " ORDER BY date ASC, weightlb DESC")
+        po = self.cursor.fetchall()
+
+        try:
+            max_x = max(po, key=lambda z_set: z_set[2])
+        except:
+            tk.messagebox.showwarning(title="Read Failure", message="Insufficient Data For Current Selection")
+            return
+        x = []
+        y = []
+        prev_date = None
+
+        for el in po:
+            if prev_date == datetime.datetime.fromtimestamp(el[0] / 1000):
+                continue
+            else:
+                prev_date = datetime.datetime.fromtimestamp(el[0] / 1000)
+
+            print(el)
+            print(el[2])
+            x.append(datetime.datetime.fromtimestamp(el[0] / 1000))
+            y.append(el[2])
+
+        plt.ylim(0, max_x[2] + (1 / 5) * max_x[2])
+        plt.plot(x, y, marker='.')
+        plt.xlabel("Date")
+        plt.ylabel("Weight")
+        print(ex_type)
+        print(type(self.ex))
+        plt.title(self.ex[int(ex_type)-1][1] + " Top Set Report")
+        plt.show()
+        pass
+
     def whole_set(self, ex_type, date_start, date_end):
-        # TODO
+
         print("WHOLE_SET")
         self.cursor.execute(
             "SELECT date, history_exercises.exercise_id, weightlb FROM history_exercises INNER JOIN history ON "
@@ -124,42 +166,3 @@ class PFT_Database:
         print(type(self.ex))
         plt.title(self.ex[int(ex_type) - 1][1] + " Whole Set Report")
         plt.show()
-
-
-
-
-    def pft_sql(self, choice):
-        self.cursor.execute("SELECT id, exercise_name FROM 'main'.'exercises'")
-        ex = self.cursor.fetchall()
-
-        for el in ex:
-            # print(el[0], el[1])
-            pass
-        # ex_choice = input("Select an exercise (1-" + str(len(ex)) + ")")
-        ex_choice = choice
-        self.cursor.execute(
-            "SELECT date, history_exercises.exercise_id, weightlb FROM history_exercises INNER JOIN history ON history_id "
-            "= history.id AND exercise_id =" + str(ex_choice) + " AND max_reps < 5 AND reptype = 1")
-        top_sets = self.cursor.fetchall()
-
-        max_x = max(top_sets, key=lambda z_set: z_set[2])
-        x = []
-        y = []
-        for el in top_sets:
-            x.append(datetime.datetime.fromtimestamp(el[0] / 1000))
-            print(datetime.datetime.fromtimestamp(el[0] / 1000))
-            y.append(el[2])
-            x_line = datetime.datetime.fromtimestamp(el[0] / 1000)
-
-            plt.vlines(x_line, ymin=0, ymax=el[2])
-
-        # print(datetime.date.fromtimestamp(el[0] / 1000), el[2])
-        plt.axhline(0, color='black')
-        plt.ylim(0, max_x[2] + (1 / 5) * max_x[2])
-        plt.style.use("seaborn-darkgrid")
-        plt.plot_date(x, y)
-        plt.xlabel("Date")
-        plt.ylabel("Weight (lbs)")
-        plt.title(ex[el[1] - 1][1])
-        plt.show()
-        # print(cursor.fetchall())
